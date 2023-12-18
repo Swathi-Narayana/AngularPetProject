@@ -1,0 +1,59 @@
+<!-- <div>{{ students | json }}</div> -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="information-container">
+    <div class="add-button-div">
+      <button class="add-button" (click)="showModal()">Add</button>
+    </div>
+    <table class="table-content">
+      <tr>
+        <td class="table-heading">Id</td>
+        <td class="table-heading">Name</td>
+        <td class="table-heading">Age</td>
+        <td class="table-heading">Phone</td>
+        <td class="table-heading">Email</td>
+        <td class="table-action"></td>
+      </tr>
+    </table>
+
+    <div *ngFor="let student of students " class="table-content">
+      <table>
+        <tr>
+          <td> {{ student.id }}</td>
+        </tr>
+        <tr>
+          <td> {{ student.Name }}</td>
+        </tr>
+        <tr>
+          <td> {{ student.Age }}</td>
+        </tr>
+        <tr>
+          <td> {{ student.Phone }}</td>
+        </tr>
+        <tr>
+          <td> {{ student.Email }}</td>
+        </tr>
+        <tr>
+          <img class="edit-icon" src="../../assets/icons/edit-icon.svg"  (click)="showEditModal(student)" alt="edit">
+        </tr>
+        <tr>
+          <img src="../../assets/icons/icons8-x-48.png" alt="delete" (click)="showDelModal(student)" class="cross-icon">
+        </tr>
+      </table>
+    </div>
+      
+    <app-editstudents *ngIf="modalEditService.isEditModalVisible"></app-editstudents>
+    <app-addstudents *ngIf="modalService.isModalVisible"></app-addstudents>
+    <app-deletestudents *ngIf="modalDelService.isDelModalVisible"></app-deletestudents>
+  </div>
+</body>
+
+</html>
