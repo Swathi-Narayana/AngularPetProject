@@ -12,53 +12,51 @@ import { StudentEventService } from '../services/student-event.service';
 })
 export class DeletestudentsComponent implements OnDestroy {
 
-  student: any = {};
   studentId: any;
-  students: Student[] = [];
-  private dataSubscription: Subscription = new Subscription();
-  studentEventService: any;
-
+  private dataSubscription: Subscription | undefined;
   constructor(
     private modalDelService: ModelPopUpDelService,
     private studentService: StudentService,
     private studentEvent:StudentEventService
   ) {
-    this.studentId = 0;
+    this.studentId=0
   }
-
+ 
   ngOnDestroy(): void {
-    this.dataSubscription.unsubscribe();
+    if (this.dataSubscription) {
+      this.dataSubscription.unsubscribe();
+    }
   }
-
   hideDelModal(): void {
+    console.log('Hiding modal');
     this.modalDelService.hideDelModal();
+    
   }
-
-  deleteStudent(): void {
-    const DataDel = this.modalDelService.currentData.subscribe(data => {
-      console.log(data);
-
-      const studentToDelete: Student = {
-        id: data,
-        Name: '',
-        Age: 0,
-        Phone: '',
-        Email: ''
-      };
-
-      this.studentService.deleteStudent(studentToDelete.id).subscribe({
+      deleteStudent(): void {
+        if (this.dataSubscription) {
+          this.dataSubscription.unsubscribe();
+        }
+    
+      this.dataSubscription = this.modalDelService.currentData.subscribe(data => {
+        console.log(data); 
+       this.studentService.deleteStudent(data).subscribe({
         next: (response: any) => {
-          if (response && response.success) {
-            console.log('Deleted successfully', response);
-            this.hideDelModal();
-           
-          }
-          const l=this. studentEvent.emitStudentDeleted(studentToDelete);
-          console.log(l);
+          this.handleDeletionResponse(response);
         },
-       
       });
     });
   }
- 
+
+  private handleDeletionResponse(response: any): void {
+    if (response && response.success) {
+      console.log('Deleted successfully', response);
+      this.hideDelModal();
+      this.emitStudentDeletedEvent();
+    }
+  }
+
+  private emitStudentDeletedEvent(): void {
+    const success = this.studentEvent.emitStudentDeleted(this.studentId);
+    console.log(success);
+  }
 }

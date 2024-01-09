@@ -21,19 +21,23 @@ export class StudentService {
   }
 
   postStudent(student: Student): Observable<Student> {
-    const url = `${this.baseUrl}/PostStudentInfo`;
+    const url = `${this.baseUrl}/PostStudentInfo/${student.id}`;
     return this.http.post<Student>(url, student);
   }
   updateStudent(student: Student): Observable<Student> {
     const url = `${this.baseUrl}/UpdateStudentInfo/${student.id}`;
     return this.http.put<Student>(url, student);
   }
-  getStudentById(student: Student): Observable<any> {
-    const url = `${this.baseUrl}/GetStudentInfoById/${student}`;
-    return this.http.get<any>(url);
+  getStudentById(studentid: string): Observable<any> {
+    const url = `${this.baseUrl}/GetStudentInfoById/${studentid}`;
+    return this.http.get<Student>(url);
   }
-  deleteStudent(student: Student["id"]): Observable<any> {
-    const url = `${this.baseUrl}/delStudentInfo/${student}`;
+  deleteStudent(studentid: string): 
+  
+  Observable<any> {
+
+    console.log(studentid);
+    const url = `${this.baseUrl}/delStudentInfo/${studentid}`;
     return this.http.delete<Student>(url);
   }
 

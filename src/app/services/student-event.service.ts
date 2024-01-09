@@ -10,7 +10,7 @@ export class StudentEventService {
   private studentDeletedSubject = new Subject<Student>();
   private studentUpadtedSubject=new Subject<void>();
   studentAdded$ = this.studentAddedSubject.asObservable();
-  studentDeleted$ = this.studentDeletedSubject.asObservable();
+   studentDeleted$ = this.studentDeletedSubject.asObservable();
   studentUpdated$ = this. studentUpadtedSubject.asObservable();
   emitStudentAdded(): void {
     this.studentAddedSubject.next();
